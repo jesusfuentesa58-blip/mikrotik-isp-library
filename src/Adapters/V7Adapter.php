@@ -137,4 +137,40 @@ class V7Adapter implements AdapterInterface
         }
         return true;
     }
+
+    public function getProfile(string $name): ?array
+    {
+        // 1. Obtenemos el cliente desde la conexión
+        $api = $this->connection->raw();
+
+        // 2. Usamos el objeto Query para buscar por nombre
+        $query = (new \RouterOS\Query('/ppp/profile/print'))
+            ->where('name', $name);
+
+        $response = $api->query($query)->read();
+
+        // Retornamos el primer resultado encontrado o null
+        return $response[0] ?? null;
+    }
+
+    /**
+     * Actualiza un perfil existente usando su ID interno de MikroTik (.id)
+     */
+    public function updateProfile(string $id, array $data): bool
+    {
+        $api = $this->connection->raw();
+        
+        // Creamos la consulta de edición
+        $query = new \RouterOS\Query('/ppp/profile/set');
+        $query->equal('.id', $id);
+        
+        // Agregamos dinámicamente los campos a actualizar (ej: rate-limit)
+        foreach ($data as $key => $value) {
+            $query->equal($key, (string) $value);
+        }
+        
+        $api->query($query)->read();
+        
+        return true; 
+    }
 }

@@ -22,5 +22,9 @@ interface AdapterInterface
 
     /** Gestión de IPs en la lista de firewall */
     public function toggleAddressList(string $address, string $listName, bool $add, ?string $comment = null): bool;
+
+    /** Obtiene un perfil por nombre */
+    public function getProfile(string $name): ?array;
+    public function updateProfile(string $id, array $data): bool;
 }
 

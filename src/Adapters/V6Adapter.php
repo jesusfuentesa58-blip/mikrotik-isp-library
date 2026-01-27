@@ -106,4 +106,37 @@ class V6Adapter implements AdapterInterface
         }
         return true;
     }
+
+    public function getProfile(string $name): ?array
+    {
+        // 1. Obtenemos el cliente desde la conexión
+        $api = $this->connection->raw();
+
+        // 2. Usamos el objeto Query estándar
+        $query = (new \RouterOS\Query('/ppp/profile/print'))
+            ->where('name', $name);
+
+        $response = $api->query($query)->read();
+
+        return $response[0] ?? null;
+    }
+
+    /**
+     * Actualiza un perfil existente en RouterOS v6
+     */
+    public function updateProfile(string $id, array $data): bool
+    {
+        $api = $this->connection->raw();
+        
+        $query = new \RouterOS\Query('/ppp/profile/set');
+        $query->equal('.id', $id);
+        
+        foreach ($data as $key => $value) {
+            $query->equal($key, (string) $value);
+        }
+        
+        $api->query($query)->read();
+        
+        return true; 
+    }
 }

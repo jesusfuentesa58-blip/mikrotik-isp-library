@@ -69,7 +69,8 @@ class PppApi
 
     public function profiles(): PppProfileApi
     {
-        return new PppProfileApi($this->connection);
+        // Pasamos el adaptador ($this->adapter) como segundo argumento
+        return new PppProfileApi($this->connection, $this->adapter);
     }
 
     public function suspend(string $name, string $method = 'secret'): bool

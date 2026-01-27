@@ -11,6 +11,6 @@
   "require": {
     "php": ">=8.1",
     "evilfreelancer/routeros-api-php": "^1.6",
-    "symfony/process": "^6.0"
+    "symfony/process": "^6.0 || ^7.0"
   }
 }
