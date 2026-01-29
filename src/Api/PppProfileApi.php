@@ -48,4 +48,9 @@ class PppProfileApi
     {
         return $this->adapter->updateProfile($id, $data);
     }
+
+    public function deleteProfile(string $name): bool
+    {
+        return (new DeleteProfile($this->connection, $name))->execute();
+    }
 }

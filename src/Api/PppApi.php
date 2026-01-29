@@ -95,4 +95,14 @@ class PppApi
         }
         return $this->enable($name);
     }
+
+    public function updateSecret(string $name, array $data): bool
+    {
+        return (new \ISP\Mikrotik\Commands\Ppp\UpdateSecret($this->connection, $name, $data))->execute();
+    }
+
+    public function removeSecret(string $name): bool
+    {
+        return (new \ISP\Mikrotik\Commands\Ppp\RemoveSecret($this->connection, $name))->execute();
+    }
 }
